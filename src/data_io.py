@@ -8,7 +8,7 @@ from tree import tree
 def getWordmap(textfile):
     words={}
     We = []
-    f = open(textfile,'r')
+    '''f = open(textfile,'r')
     lines = f.readlines()
     for (n,i) in enumerate(lines):
         i=i.split()
@@ -18,7 +18,19 @@ def getWordmap(textfile):
             v.append(float(i[j]))
             j += 1
         words[i[0]]=n
-        We.append(v)
+        We.append(v)'''
+    with open(textfile,'r') as f:
+        n = 0
+        for line in f:
+            i = line.split()
+            j = 1
+            v = []
+            while j < len(i):
+                v.append(float(i[j]))
+                j += 1
+            words[i[0]]=n
+            We.append(v)
+            n+=1
     return (words, np.array(We))
 
 def prepare_data(list_of_seqs):
@@ -196,6 +208,7 @@ def sentences2idx(sentences, words):
     :param words: a dictionary, words['str'] is the indices of the word 'str'
     :return: x1, m1. x1[i, :] is the word indices in sentence i, m1[i,:] is the mask for sentence i (0 means no word at the location)
     """
+    seq1=[]
     for i in sentences:
         seq1.append(getSeq(i,words))
     x1,m1 = prepare_data(seq1)
